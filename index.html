@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>X Generator</title>
+</head>
+<body>
+    <div class="w-full flex flex-col-reverse lg:flex-row">
+        <!-- Config -->
+        <div class="leftsection h-screen w-full flex justify-center items-start lg:items-center">
+            <div class="w-[50vh] shadow-xl flex flex-col justify-center gap-2 p-4 rounded-lg bg-[#FDFDFD]">
+                <h1 class="text-2xl font-semibold">X Generator</h1>
+                <div class="w-full h-[1px] bg-black opacity-10"></div>
+                <!-- profile -->
+                <div>
+                    <label for="profile">Profile: </label>
+                    <input type="file" class="profile-config border rounded-md p-1 w-1/2">
+                </div>
+                <!-- name and username -->
+                <div>
+                    <label for="name">Name: </label>
+                    <input type="text" value="Name" maxlength="24" placeholder="Enter your name" class="name-config border rounded-md p-1 w-1/2"value="Name" >
+                </div>
+                <!-- verify -->
+                <div>
+                    <label for="verify">Verify: </label>
+                    <input type="checkbox" class="verify-config border rounded-md ml-2">
+                </div>  
+                <div>
+                    <label for="username">Username: </label>
+                    <input type="text" value="username" maxlength="24" placeholder="Enter your username" class="username-config border rounded-md p-1 w-1/2">
+                </div>
+                <!-- message -->
+                <div>
+                    <label for="message">Message: </label>
+                    <textarea name="message" id="message" maxlength="255" class="message-config border rounded-md p-1 w-1/2">ครับแอดมิน Hello world</textarea>
+                </div>
+                <!-- picture -->
+                <div>
+                    <label for="picture">Picture: </label>
+                    <input type="file" class="picture-config border rounded-md p-1 w-1/2">
+                </div>
+                <!-- time -->
+                <div>
+                    <label for="timestamp">Timestamp: </label>
+                    <input type="time" value="11:59" class="timestamp-config border rounded-md p-1 w-1/2">
+                    </div>
+                <!-- date -->
+                <div>
+                    <label for="date">Date: </label>
+                    <input type="date" value="2077-12-31" class="date-config border rounded-md p-1 w-1/2">
+                </div>
+                <!-- views -->
+                <div>
+                    <label for="views">Views: </label>
+                    <input type="number" value="999999999" class="views-config border rounded-md p-1 w-1/2">
+                </div>
+                <!-- submit -->
+                <div>
+                    <button class="download bg-black text-white p-2 rounded-md">Download</button>
+                    <!-- reset -->
+                    <button class="reset border border-black text-black p-2 rounded-md">Reset</button>
+                </div>
+            </div>
+        </div>
+        <!-- Preview -->
+        <div class="rightsection py-10 h-auto lg:h-screen w-full flex items-center justify-center">
+            <div id="xpost" class="w-[50vh] h-auto bg-black rounded-lg p-4 shadow-xl">
+                <div class="header flex justify-between items-center">
+                    <div class="left flex items-center gap-1">
+                        <div class="flex justify-center items-center rounded-full overflow-hidden">
+                            <img src="defaultprofile.png" alt="preview" class="profile w-10 h-10 object-cover">
+                        </div>
+                        <div class="text-white leading-none">
+                            <div class="flex items-center justify-start gap-1 pl-[1px]">
+                                <h1 class="name font-semibold">Name</h1>
+                                <img src="air.png" alt="" class="verify w-4 h-4 object-cover"> 
+                            </div>
+                            <p class="username opacity-50">@username</p>
+                        </div>
+                    </div>
+                    <div class="right w-6">
+                        <img src="logo-x-twitter.svg" alt="">
+                    </div>
+                </div>
+                <div class="body w-full h-auto mt-2 flex flex-col overflow-hidden">
+                    <p class="message text-white mb-2 text-wrap">ครับแอดมิน Hello world</p>
+                    <!-- picture -->
+                    <div class="picture-con w-full h-auto rounded-md overflow-hidden flex items-center justify-center">
+                        <img src="air.png" alt="" class="picture object-cover rounded-md">
+                    </div>
+                    <!-- timestamp and views -->
+                    <div class="flex justify-start items-center text-sm">
+                        <p class="time text-white opacity-50">11:59 PM</p>
+                        <span class="mx-1 bg-white w-1 h-1 rounded-full opacity-50"></span>
+                        <p class="date text-white opacity-50">Dec 31, 2077</p>
+                        <span class="mx-1 bg-white w-1 h-1 rounded-full opacity-50"></span>
+                        <p class="views text-white font-semibold">999M</p>
+                        <p class="text-white opacity-50 ml-1">Views</p>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const profileConfig = document.querySelector('.profile-config');
+        const nameConfig = document.querySelector('.name-config');
+        const usernameConfig = document.querySelector('.username-config');
+        const verifyConfig = document.querySelector('.verify-config');
+        const messageConfig = document.querySelector('.message-config');
+        const pictureConfig = document.querySelector('.picture-config');
+        const timestampConfig = document.querySelector('.timestamp-config');
+        const dateConfig = document.querySelector('.date-config');
+        const viewsConfig = document.querySelector('.views-config');
+        const download = document.querySelector('.download');
+        const reset = document.querySelector('.reset');
+
+        const profilePreview = document.querySelector('.profile');
+        const namePreview = document.querySelector('.name');
+        const usernamePreview = document.querySelector('.username');
+        const verifyPreview = document.querySelector('.verify');
+        const messagePreview = document.querySelector('.message');
+        const picturePreview = document.querySelector('.picture');
+        const timestampPreview = document.querySelector('.time');
+        const datePreview = document.querySelector('.date');
+        const viewsPreview = document.querySelector('.views');
+
+        profileConfig.addEventListener('change', () => {
+            const file = profileConfig.files[0];
+            const reader = new FileReader();
+            if (!file) {
+                profilePreview.src = 'defaultprofile.png';
+                return;
+            }
+            if (!file.type.startsWith('image/')) return;
+            if (file) {
+                reader.onloadend = () => {
+                    profilePreview.src = reader.result;
+                }
+            }
+            reader.readAsDataURL(file);
+        });
+
+        nameConfig.addEventListener('input', () => {
+            namePreview.textContent = nameConfig.value;
+        });
+
+        usernameConfig.addEventListener('input', () => {
+            usernamePreview.textContent = '@' + usernameConfig.value;
+        });
+
+        verifyConfig.addEventListener('change', () => {
+            if (verifyConfig.checked) {
+                verifyPreview.src = 'verify.png';
+            } else {
+                verifyPreview.src = 'air.png';
+            }
+        });
+
+        messageConfig.addEventListener('input', () => {
+            messagePreview.innerHTML = messageConfig.value.replace(/\n/g, '<br>');
+        });
+
+        pictureConfig.addEventListener('change', () => {
+            const file = pictureConfig.files[0];
+            const reader = new FileReader();
+            if (!file.type.startsWith('image/')) return;
+            if (file) {
+                reader.onloadend = () => {
+                    picturePreview.src = reader.result;
+                    picturePreview.classList.add('mb-2');
+                }
+            }
+            reader.readAsDataURL(file);
+        });
+
+        timestampConfig.addEventListener('input', () => {
+            const time = timestampConfig.value.split(':');
+            const hours = parseInt(time[0]);
+            const minutes = time[1];
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const hour = hours % 12 || 12;
+            timestampPreview.textContent = hour + ':' + minutes + ' ' + ampm;
+        });
+
+        dateConfig.addEventListener('input', () => {
+            // หากไม่ใส่ให้ใช้วันปัจจุบัน
+            if (!dateConfig.value) {
+                const date = new Date();
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                datePreview.textContent = date.toLocaleDateString(undefined, options);
+                return;
+            }
+            const date = new Date(dateConfig.value);
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            datePreview.textContent = date.toLocaleDateString(undefined, options);
+
+        });
+
+        viewsConfig.addEventListener('input', () => {
+            const views = viewsConfig.value;
+
+            if (views >= 1e12) {
+                viewsPreview.textContent = (views / 1e12).toFixed(1) + 'T';
+            }
+            if (views >= 1e9) {
+                viewsPreview.textContent = (views / 1e9).toFixed(1) + 'B';
+            } else if (views >= 1e6) {
+                viewsPreview.textContent = (views / 1e6).toFixed(1) + 'M';
+            } else if (views >= 1e3) {
+                viewsPreview.textContent = (views / 1e3).toFixed(1) + 'K';
+            } else {
+                viewsPreview.textContent = views;
+            }
+        });
+
+        reset.addEventListener('click', () => {
+            profileConfig.value = '';
+            nameConfig.value = 'Name';
+            usernameConfig.value = 'username';
+            verifyConfig.checked = false;
+            messageConfig.value = 'ครับแอดมิน Hello world';
+            pictureConfig.value = '';
+            timestampConfig.value = '2:00';
+            dateConfig.value = '';
+            viewsConfig.value = '';
+            profilePreview.src = 'defaultprofile.png';
+            namePreview.textContent = 'Name';
+            usernamePreview.textContent = '@username';
+            verifyPreview.src = 'air.png';
+            messagePreview.textContent = 'ครับแอดมิน Hello world';
+            picturePreview.src = 'air.png';
+            picturePreview.classList.remove('mb-2');
+            timestampPreview.textContent = '11:59 PM';
+            datePreview.textContent = 'Dec 31, 2077';
+            viewsPreview.textContent = '999M';
+        });
+
+        download.addEventListener('click', () => {
+            domtoimage.toBlob(document.getElementById('xpost'))
+                .then(function (blob) {
+                    window.saveAs(blob, 'xpost.png');
+                });
+        });
+    </script>
+</body>
+</html>
