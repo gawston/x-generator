@@ -238,7 +238,7 @@
 
         download.addEventListener('click', () => {
             domtoimage.toBlob(document.getElementById('xpost'))
-                .then(function (blob) {
+                .then((blob) => {
                     window.saveAs(blob, 'xpost.png');
                 });
         });
