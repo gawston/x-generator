@@ -181,26 +181,13 @@
         });
 
         timestampConfig.addEventListener('input', () => {
-            const time = timestampConfig.value.split(':');
-            const hours = parseInt(time[0]);
-            const minutes = time[1];
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            const hour = hours % 12 || 12;
-            timestampPreview.textContent = hour + ':' + minutes + ' ' + ampm;
+            timestampPreview.textContent = timestampConfig.value;
         });
 
         dateConfig.addEventListener('input', () => {
-            // หากไม่ใส่ให้ใช้วันปัจจุบัน
-            if (!dateConfig.value) {
-                const date = new Date();
-                const options = { year: 'numeric', month: 'short', day: 'numeric' };
-                datePreview.textContent = date.toLocaleDateString(undefined, options);
-                return;
-            }
             const date = new Date(dateConfig.value);
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
             datePreview.textContent = date.toLocaleDateString(undefined, options);
-
         });
 
         viewsConfig.addEventListener('input', () => {
@@ -227,9 +214,9 @@
             verifyConfig.checked = false;
             messageConfig.value = 'ครับแอดมิน Hello world';
             pictureConfig.value = '';
-            timestampConfig.value = '2:00';
-            dateConfig.value = '';
-            viewsConfig.value = '';
+            timestampConfig.value = '11:59';
+            dateConfig.value = '2077-12-31';
+            viewsConfig.value = '999999999';
             profilePreview.src = 'defaultprofile.png';
             namePreview.textContent = 'Name';
             usernamePreview.textContent = '@username';
