@@ -48,7 +48,7 @@
                 <!-- time -->
                 <div>
                     <label for="timestamp">Timestamp: </label>
-                    <input type="time" value="11:59" class="timestamp-config border rounded-md p-1 w-1/2">
+                    <input type="time" value="23:59" class="timestamp-config border rounded-md p-1 w-1/2">
                     </div>
                 <!-- date -->
                 <div>
@@ -181,7 +181,13 @@
         });
 
         timestampConfig.addEventListener('input', () => {
-            timestampPreview.textContent = timestampConfig.value;
+            // calculate time
+            const time = timestampConfig.value.split(':');
+            const hours = parseInt(time[0]);
+            const minutes = time[1];
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12;
+            timestampPreview.textContent = `${displayHours}:${minutes} ${ampm}`;
         });
 
         dateConfig.addEventListener('input', () => {
@@ -214,7 +220,7 @@
             verifyConfig.checked = false;
             messageConfig.value = 'ครับแอดมิน Hello world';
             pictureConfig.value = '';
-            timestampConfig.value = '11:59';
+            timestampConfig.value = '23:59';
             dateConfig.value = '2077-12-31';
             viewsConfig.value = '999999999';
             profilePreview.src = 'defaultprofile.png';
