@@ -29,7 +29,7 @@
                 <!-- verify -->
                 <div>
                     <label for="verify">Verify: </label>
-                    <input type="checkbox" class="verify-config border rounded-md ml-2">
+                    <input type="checkbox" class="verify-config border rounded-md ml-2 cursor-pointer">
                 </div>  
                 <div>
                     <label for="username">Username: </label>
@@ -38,7 +38,7 @@
                 <!-- message -->
                 <div>
                     <label for="message">Message: </label>
-                    <textarea name="message" id="message" maxlength="255" class="message-config border rounded-md p-1 w-1/2">ครับแอดมิน Hello world</textarea>
+                    <textarea name="message" id="message" maxlength="255" class="message-config border rounded-md p-1 w-1/2 text-wrap">ครับแอดมิน Hello world</textarea>
                 </div>
                 <!-- picture -->
                 <div>
@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div class="body w-full h-auto mt-2 flex flex-col overflow-hidden">
-                    <p class="message text-white mb-2 text-wrap">ครับแอดมิน Hello world</p>
+                    <p class="message text-white mb-2" style="word-wrap: break-word;">ครับแอดมิน Hello world</p>
                     <!-- picture -->
                     <div class="picture-con w-full h-auto rounded-md overflow-hidden flex items-center justify-center">
                         <img src="air.png" alt="" class="picture object-cover rounded-md">
@@ -164,6 +164,7 @@
         });
 
         messageConfig.addEventListener('input', () => {
+            // text wrap
             messagePreview.innerHTML = messageConfig.value.replace(/\n/g, '<br>');
         });
 
